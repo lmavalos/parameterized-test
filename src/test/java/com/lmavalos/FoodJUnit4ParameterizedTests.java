@@ -19,7 +19,7 @@ public class FoodJUnit4ParameterizedTests implements WithAssertions {
         this.isVegan = isVegan;
     }
 
-    @Parameterized.Parameters(name = "{index}) food {0} is vegan? {1}")
+    @Parameterized.Parameters(name = "#{index} | Food {0} is vegan? {1}")
     public static List<Object[]> parameters() {
         return Arrays.asList(new Object[][]{
                 {Food.MEAT, false},
