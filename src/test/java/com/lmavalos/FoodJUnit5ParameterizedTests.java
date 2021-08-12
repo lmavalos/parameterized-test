@@ -17,6 +17,13 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class FoodJUnit5ParameterizedTests implements WithAssertions {
 
+    //region Podemos utilizar MethodSource e indicar el lote de prueba
+    @ParameterizedTest
+    @MethodSource("parameters")
+    void recognizeWhichFoodsAreVeganUsingMethod(Food food, boolean isVegan) {
+        assertThat(food.isVegan()).isEqualTo(isVegan);
+    }
+
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 arguments("OREO", true),
@@ -27,23 +34,21 @@ class FoodJUnit5ParameterizedTests implements WithAssertions {
                 arguments("MEAT", false)
         );
     }
+    //endregion
 
-    private static Stream<Arguments> recognizeWhichFoodsAreVeganUsingDefaultMethod() {
-        return parameters();
-    }
-
-    @ParameterizedTest
-    @MethodSource("parameters")
-    void recognizeWhichFoodsAreVeganUsingMethod(Food food, boolean isVegan) {
-        assertThat(food.isVegan()).isEqualTo(isVegan);
-    }
-
+    //region MethodSource por defecto busca un metodo con el mismo nombre del Test
     @ParameterizedTest
     @MethodSource
     void recognizeWhichFoodsAreVeganUsingDefaultMethod(Food food, boolean isVegan) {
         assertThat(food.isVegan()).isEqualTo(isVegan);
     }
 
+    private static Stream<Arguments> recognizeWhichFoodsAreVeganUsingDefaultMethod() {
+        return parameters();
+    }
+    //endregion
+
+    //region Podemos usar valores en formato CSV para convertirlos en Enums
     @ParameterizedTest
     @CsvSource({
             "OREO, true",
@@ -56,7 +61,9 @@ class FoodJUnit5ParameterizedTests implements WithAssertions {
     void recognizeWhichFoodsAreVeganUsingFormatCsv(Food food, boolean isVegan) {
         assertThat(food.isVegan()).isEqualTo(isVegan);
     }
+    //endregion
 
+    //region Podemos tambien seleccionar cada columna (index) de la fila y evaluar por separado
     @ParameterizedTest
     @CsvSource({
             "OREO, true",
@@ -71,7 +78,17 @@ class FoodJUnit5ParameterizedTests implements WithAssertions {
         final boolean isVegan = accessor.getBoolean(1);
         assertThat(food.isVegan()).isEqualTo(isVegan);
     }
+    //endregion
 
+    //region Podemos usar un archivo CSV
+    @ParameterizedTest
+    @CsvFileSource(resources = "/food.csv")
+    void recognizeWhichFoodsAreVeganUsingFromCsvFile(Food food, boolean isVegan) {
+        assertThat(food.isVegan()).isEqualTo(isVegan);
+    }
+    //endregion
+
+    //region Podemos utilizar un convertidor
     @ParameterizedTest
     @ValueSource(strings = {
             "OREO",
@@ -80,12 +97,6 @@ class FoodJUnit5ParameterizedTests implements WithAssertions {
     })
     void recognizeWhichFoodsAreVeganUsingConverter(@ConvertWith(VeganFoodConverter.class) Food food) {
         assertThat(food.isVegan()).isTrue();
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "/food.csv")
-    void recognizeWhichFoodsAreVeganUsingFromCsvFile(Food food, boolean isVegan) {
-        assertThat(food.isVegan()).isEqualTo(isVegan);
     }
 
     static class VeganFoodConverter extends SimpleArgumentConverter {
@@ -101,4 +112,5 @@ class FoodJUnit5ParameterizedTests implements WithAssertions {
             return null;
         }
     }
+    //endregion
 }
