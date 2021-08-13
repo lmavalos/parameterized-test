@@ -14,7 +14,7 @@ class NumbersUtilsTest implements WithAssertions {
 
     @ParameterizedTest
     @ValueSource(ints = {2, 4, 6, -10, 50, Integer.MIN_VALUE})
-    void isNotOdd(int number) {
+    void isEven(int number) {
         assertThat(NumbersUtils.isEven(number)).isTrue();
     }
 }
