@@ -10,14 +10,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation "junit:junit:4.12"
-    testImplementation platform("org.junit:junit-bom:5.7.2")
+    testImplementation "junit:junit:4.12" //JUnit4
+    testImplementation platform("org.junit:junit-bom:5.7.2") //JUnit5
 
     testRuntime "org.junit.platform:junit-platform-launcher"
-    testRuntime "org.junit.vintage:junit-vintage-engine"
+    testRuntime "org.junit.vintage:junit-vintage-engine" //Esto es para poder ejecutar al mismo tiempo: JUnit4 y JUnit5
 
     testImplementation "org.junit.jupiter:junit-jupiter"
-    testCompile "org.junit.jupiter:junit-jupiter-params"
+    testCompile "org.junit.jupiter:junit-jupiter-params" //Para ejecutar los ParametizedTest en JUnit5
 
     testCompile "org.assertj:assertj-core:3.19.0"
 }

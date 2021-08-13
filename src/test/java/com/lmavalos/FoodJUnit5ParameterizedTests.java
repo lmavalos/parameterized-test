@@ -48,7 +48,7 @@ class FoodJUnit5ParameterizedTests implements WithAssertions {
     }
     //endregion
 
-    //region Podemos usar valores en formato CSV para convertirlos en Enums
+    //region Podemos usar valores strings para convertirlos en Enums
     @ParameterizedTest
     @CsvSource({
             "OREO, true",
